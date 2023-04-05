@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "155405817003",
+    "project_id": "intagram-cool-project",
+    "storage_bucket": "intagram-cool-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155405817003:android:eec90fa39d43f6161a93ee",
+        "android_client_info": {
+          "package_name": "com.example.instagram_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155405817003-aer4lnbqqkukup3t8fjavrp2m9pt74om.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCF8h-Yr6jGwymfPwA3rlRb1fA-fijT2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155405817003-aer4lnbqqkukup3t8fjavrp2m9pt74om.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
