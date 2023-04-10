@@ -6,6 +6,7 @@ import 'package:instagram_clone/state/auth/models/auth_results.dart';
 import 'package:instagram_clone/state/post/typedefs/user_id.dart';
 
 class Authenticator {
+  const Authenticator();
   User? get user => FirebaseAuth.instance.currentUser;
   UserId? get userId => user?.uid;
   bool get isAlreadyLoggedIn => userId != null;
@@ -19,20 +20,18 @@ class Authenticator {
   }
 
   Future<AuthResult> loginWithFacebook() async {
-    print('Facebook Login called');
     final loginResult = await FacebookAuth.instance.login(
       permissions: ['email', 'public_profile'],
     );
     final token = loginResult.accessToken?.token;
     if (token == null) {
       //user arborted login proccess
-      print("token aborted for fb");
+
       return AuthResult.arborted;
     }
     // then get user credential
     final oAuthCredential = FacebookAuthProvider.credential(token);
     try {
-      print("trying firebase fb");
       await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
       return AuthResult.success;
     } on FirebaseAuthException catch (e) {
@@ -48,7 +47,7 @@ class Authenticator {
           await loginWithGoogle();
           await FirebaseAuth.instance.currentUser
               ?.linkWithCredential(credencial);
-          print('Facebook Login Executed');
+
           return AuthResult.success;
         }
       }
@@ -57,15 +56,10 @@ class Authenticator {
   }
 
   Future<AuthResult> loginWithGoogle() async {
-    print('google Login called');
-    final googleSignIn = GoogleSignIn(
-      scopes: [Constants.googleCom],
-    );
-    final signInToAccount =
-        await googleSignIn.signIn().catchError((onError) => print(onError));
-    ;
+    final googleSignIn = GoogleSignIn();
+    final signInToAccount = await googleSignIn.signIn();
+
     if (signInToAccount == null) {
-      print("user aborted gogle signing");
       return AuthResult.arborted;
     }
     final googleAuth = await signInToAccount.authentication;
@@ -75,12 +69,11 @@ class Authenticator {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      print("trying gogle signing");
+
       await FirebaseAuth.instance.signInWithCredential(oAuthCreditials);
-      print('google Login Executed');
+
       return AuthResult.success;
     } catch (e) {
-      print(e);
       return AuthResult.failure;
     }
   }

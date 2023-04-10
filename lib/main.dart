@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:instagram_clone/state/auth/backend/authenticator.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:instagram_clone/state/auth/provider/auth_state_provider.dart';
+import 'package:instagram_clone/state/auth/provider/is_logged_in_provider.dart';
 import 'firebase_options.dart';
 import 'dart:developer' as devtool show log;
 
@@ -9,7 +11,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 extension Log on Object {
@@ -25,39 +31,66 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      darkTheme: ThemeData(
+        title: 'Flutter Demo',
+        darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            primarySwatch: Colors.blueGrey,
+            indicatorColor: Colors.blueGrey),
+        theme: ThemeData(
           brightness: Brightness.dark,
-          primarySwatch: Colors.blueGrey,
-          indicatorColor: Colors.blueGrey),
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
-      ),
-      themeMode: ThemeMode.dark,
-      debugShowCheckedModeBanner: false,
-      home: const MyHomePage(),
-    );
+          primarySwatch: Colors.blue,
+        ),
+        themeMode: ThemeMode.dark,
+        debugShowCheckedModeBanner: false,
+        home: Consumer(builder: ((context, ref, child) {
+          final isloggedIn = ref.watch(isLoggedInProvider);
+          if (isloggedIn) {
+            return const MainView();
+          }
+          return const LoginView();
+        }))
+        // const LoginView(),
+        );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class MainView extends ConsumerWidget {
+  const MainView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Instagram'),
         centerTitle: true,
       ),
-      body: Column(
+      body: Scaffold(
+        body: TextButton(
+          onPressed: () {
+            ref.read(authStateProvider.notifier).logOut();
+          },
+          child: const Text('LogOut'),
+        ),
+      ),
+    );
+  }
+}
+
+class LoginView extends ConsumerWidget {
+  const LoginView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var column = SafeArea(
+      child: Column(
         children: [
           TextButton(
             onPressed: () async {
-              final result = await Authenticator().loginWithGoogle();
+              final result =
+                  ref.read(authStateProvider.notifier).loginWithGoogle();
               result.log();
-              print(result.toString());
             },
             child: const Text(
               'Sign In with Google',
@@ -65,9 +98,9 @@ class MyHomePage extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              final result = await Authenticator().loginWithFacebook();
+              final result =
+                  ref.read(authStateProvider.notifier).loginWithFacebook();
               result.log();
-              print(result.toString());
             },
             child: const Text(
               'Sign In with Facebook',
@@ -75,6 +108,9 @@ class MyHomePage extends StatelessWidget {
           ),
         ],
       ),
+    );
+    return Scaffold(
+      body: column,
     );
   }
 }
