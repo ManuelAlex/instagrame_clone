@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
 class FirebaseCollectionName {
-  static const thumbails = 'thumbails';
+  static const thumbnails = 'thumbnails';
   static const comments = 'comments';
   static const likes = 'likes';
   static const posts = 'posts';

@@ -16,19 +16,6 @@ class Strings {
   static const googleSignupUrl = 'https://accounts.google.com/signup';
   static const logIntoYourAccount =
       'Log into your account using one of the options below.';
-  static const comments = 'Comments';
-  static const writeYourCommentHere = 'Write your comment here...';
-  static const checkOutThisPost = 'Check out this post!';
-  static const postDetails = 'Post Details';
-  static const post = 'post';
-
-  static const createNewPost = 'Create New Post';
-  static const pleaseWriteYourMessageHere = 'Please write your message here';
-
-  static const noCommentsYet =
-      'Nobody has commented on this post yet. You can change that though, and be the first person who comments!';
-
-  static const enterYourSearchTermHere = 'Enter your search term here';
 
   // login view rich text at bottom
   static const dontHaveAnAccount = "Don't have an account?\n";
