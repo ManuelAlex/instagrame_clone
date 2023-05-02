@@ -35,7 +35,6 @@ class _CreateNewPostViewState extends ConsumerState<CreateNewPostView> {
     );
     final postSettings = ref.watch(postSettingsProvider);
     final postController = useTextEditingController();
-    final focusNode = useFocusNode(canRequestFocus: false);
     final isPostButtonEnabled = useState<bool>(false);
     useEffect(() {
       void listner() {
@@ -98,7 +97,6 @@ class _CreateNewPostViewState extends ConsumerState<CreateNewPostView> {
                 autofocus: true,
                 maxLines: null,
                 controller: postController,
-                focusNode: focusNode,
               ),
             ),
             ...PostSettings.values.map(

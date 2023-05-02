@@ -9,6 +9,7 @@ import 'package:instagram_clone/views/component/dialogs/alart_dialogs_model.dart
 import 'package:instagram_clone/views/component/dialogs/logout_dialog.dart';
 import 'package:instagram_clone/views/constant/strings.dart';
 import 'package:instagram_clone/views/create_new_post/create_new_post_view.dart';
+import 'package:instagram_clone/views/tabs/search/search_view.dart';
 import 'package:instagram_clone/views/tabs/user_post/user_post_view.dart';
 
 class MainView extends ConsumerStatefulWidget {
@@ -115,7 +116,7 @@ class _MainViewState extends ConsumerState<MainView> {
         ),
         body: const TabBarView(children: [
           UserPostView(),
-          UserPostView(),
+          SearchTabView(),
           UserPostView(),
         ]),
       ),
